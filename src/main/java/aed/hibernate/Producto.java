@@ -65,6 +65,11 @@ public class Producto {
 	public void setCongelado(boolean congelado) {
 		this.congelado = congelado;
 	}
+
+	public void setObservacion(ProductoObservacion productoObservacion) {
+		// TODO Auto-generated method stub
+		
+	}
     
     
     

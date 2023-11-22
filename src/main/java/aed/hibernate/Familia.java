@@ -36,4 +36,9 @@ public class Familia {
 	}
 
 
+	@Override
+	public String toString() {
+		return this.denoFamilia;
+	}
+	
 }

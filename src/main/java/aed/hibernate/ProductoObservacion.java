@@ -27,8 +27,10 @@ public String getObservacion() {
 public void setObservacion(String nombreContacto) {
 	this.observacion = nombreContacto;
 }
-
-
+@Override
+	public String toString() {
+		return this.observacion;
+	}
 
 
 }
