@@ -15,7 +15,7 @@ public class Tienda {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codTienda")
-	private long codTienda;
+	private int codTienda;
 	
 	@Column(name = "denoTienda", length = 20)
 	private String denoTienda;
@@ -23,11 +23,11 @@ public class Tienda {
 	@Column(name = "codigoPostal", length = 5)
 	private String codigoPostal;
 
-	public long getCodTienda() {
+	public int getCodTienda() {
 		return codTienda;
 	}
 
-	public void setCodTienda(long codTienda) {
+	public void setCodTienda(int codTienda) {
 		this.codTienda = codTienda;
 	}
 

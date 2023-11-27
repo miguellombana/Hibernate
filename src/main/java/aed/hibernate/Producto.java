@@ -12,7 +12,7 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codproducto") 
-    private long codProducto;
+    private int codProducto;
     
     @Column(name = "denoproducto", length = 100) 
     private String denoProducto;
@@ -21,12 +21,12 @@ public class Producto {
     private double precioBase;
     
     @Column(name = "codfamilia") 
-    private long codFamilia;
+    private int codFamilia;
     
     @Column(name = "congelado")
     private boolean congelado;
 
-	public long getCodProducto() {
+	public int getCodProducto() {
 		return codProducto;
 	}
 
@@ -38,7 +38,7 @@ public class Producto {
 		return precioBase;
 	}
 
-	public long getcodFamilia() {
+	public int getcodFamilia() {
 		return codFamilia;
 	}
 
@@ -46,7 +46,7 @@ public class Producto {
 		return congelado;
 	}
 
-	public void setCodProducto(long codProducto) {
+	public void setCodProducto(int codProducto) {
 		this.codProducto = codProducto;
 	}
 

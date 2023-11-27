@@ -13,8 +13,8 @@ public class Main {
 	            Familia familia = new Familia();
 	            familia.setCodFamilia(1);
 	            familia.setDenoFamilia("Fruta");
-	            sesion.persist(familia);
-	            sesion.getTransaction().commit();
+	    //        sesion.persist(familia);
+	          
 
 	            Producto producto = new Producto();
 	            producto.setCodProducto(1);
@@ -22,26 +22,26 @@ public class Main {
 	            producto.setcodFamilia(1);
 	            producto.setCongelado(false);
 	            sesion.persist(producto);
-	            sesion.getTransaction().commit();
+	        
 
 	            Tienda tienda = new Tienda();
 	            tienda.setCodTienda(1);
 	            tienda.setDenoTienda("Mercadona");
 	            tienda.setCodigoPostal("10001");
 	            sesion.persist(tienda);
-	            sesion.getTransaction().commit();
+	       
 
 	            Stock stock = new Stock();
 	            stock.setCodProducto(1);
 	            stock.setCodTienda(1);
 	            stock.setUnidades(100);
-	            sesion.persist(stock);
-	            sesion.getTransaction().commit();
+	   //         sesion.persist(stock);
+	        
 
 	            ProductoObservacion productoObservacion = new ProductoObservacion();
 	            productoObservacion.setCodProducto(1);
 	            productoObservacion.setObservacion("Todo correcto");
-	            sesion.persist(productoObservacion);
+	        //    sesion.persist(productoObservacion);
 	            sesion.getTransaction().commit();
 	        } catch (Exception e) {
 	            // En caso de error, realiza un rollback

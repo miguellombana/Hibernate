@@ -14,16 +14,16 @@ public class Familia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codproducto")
-    private long codFamilia;
+    private int codFamilia;
     
-    @Column(name = "denofamilia", length = 500)
+    @Column(name = "denofamilia", length = 50)
     private String denoFamilia;
 
-	public long getCodFamilia() {
+	public int getCodFamilia() {
 		return codFamilia;
 	}
 
-	public void setCodFamilia(long codFamilia) {
+	public void setCodFamilia(int codFamilia) {
 		this.codFamilia = codFamilia;
 	}
 

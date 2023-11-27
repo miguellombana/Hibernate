@@ -20,7 +20,7 @@
 			si siempre esta sin comentar cada vez que lo ejecuto crea las tablas para 
 			ello poner create-drop, si no quiero que vuelva a crear las tablas pondré 
 			update -->
-		<property name="hbm2ddl.auto">create-drop</property>
+		<property name="hbm2ddl.auto">update</property>
 		<!-- Mapea las siguientes clases anotadas si trabajásemos con mapeo XML 
 			en lugar de class pondríamos resource -->
 		<mapping class="aed.hibernate.Producto" />
