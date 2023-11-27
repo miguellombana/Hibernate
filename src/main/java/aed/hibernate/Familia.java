@@ -13,7 +13,7 @@ public class Familia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "codproducto")
+    @Column(name = "codFamilia")
     private int codFamilia;
     
     @Column(name = "denofamilia", length = 50)
@@ -40,5 +40,9 @@ public class Familia {
 	public String toString() {
 		return this.denoFamilia;
 	}
+	
+	
+	
+	
 	
 }

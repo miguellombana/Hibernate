@@ -4,11 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "producto")
 public class Producto {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codproducto") 
@@ -20,8 +23,9 @@ public class Producto {
     @Column(name = "preciobase") //
     private double precioBase;
     
-    @Column(name = "codfamilia") 
-    private int codFamilia;
+    @ManyToOne
+    @JoinColumn(name = "codFamilia") 
+    private Familia codFamilia;
     
     @Column(name = "congelado")
     private boolean congelado;
@@ -38,7 +42,7 @@ public class Producto {
 		return precioBase;
 	}
 
-	public int getcodFamilia() {
+	public Familia getcodFamilia() {
 		return codFamilia;
 	}
 
@@ -58,7 +62,7 @@ public class Producto {
 		this.precioBase = precioBase;
 	}
 
-	public void setcodFamilia(int i) {
+	public void setcodFamilia(Familia i) {
 		this.codFamilia = i;
 	}
 

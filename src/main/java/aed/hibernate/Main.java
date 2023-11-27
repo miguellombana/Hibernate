@@ -10,38 +10,52 @@ public class Main {
 			sesion.beginTransaction();
 			
 			try {
+				
+				addFamilia("Cereales",sesion);
+				addFamilia("Bebidas",sesion);
+				addFamilia("Congelados",sesion);
+				addFamilia("Consumibles",sesion);
+				
 	            Familia familia = new Familia();
-	            familia.setCodFamilia(1);
-	            familia.setDenoFamilia("Fruta");
-	    //        sesion.persist(familia);
+	            familia.setDenoFamilia("Verduras");
+	            sesion.persist(familia);
+	            
+	            
+	            addProducto("Producto1", 10.00, familia, false, sesion);
+				
+				
 	          
+/*
+ * 
+ * 
 
+	            
 	            Producto producto = new Producto();
 	            producto.setCodProducto(1);
 	            producto.setDenoProducto("Manzanas");
-	            producto.setcodFamilia(1);
+	            producto.setcodFamilia(familia);
 	            producto.setCongelado(false);
-	            sesion.persist(producto);
+	           sesion.persist(producto);
 	        
 
 	            Tienda tienda = new Tienda();
 	            tienda.setCodTienda(1);
 	            tienda.setDenoTienda("Mercadona");
 	            tienda.setCodigoPostal("10001");
-	            sesion.persist(tienda);
+	           sesion.persist(tienda);
 	       
 
 	            Stock stock = new Stock();
 	            stock.setCodProducto(1);
 	            stock.setCodTienda(1);
 	            stock.setUnidades(100);
-	   //         sesion.persist(stock);
+	           sesion.persist(stock);
 	        
 
 	            ProductoObservacion productoObservacion = new ProductoObservacion();
-	            productoObservacion.setCodProducto(1);
-	            productoObservacion.setObservacion("Todo correcto");
-	        //    sesion.persist(productoObservacion);
+	            //productoObservacion.setCodProducto(1);
+	            productoObservacion.setObservacion("Todo correctoiiii");
+	            sesion.persist(productoObservacion);*/
 	            sesion.getTransaction().commit();
 	        } catch (Exception e) {
 	            // En caso de error, realiza un rollback
@@ -52,5 +66,33 @@ public class Main {
 	            sesion.close();
 	        }
 	    }
-
+	
+	
+	public static void addFamilia(String nombre, Session sesion) {
+		
+        Familia familia = new Familia();
+        familia.setDenoFamilia(nombre);
+        sesion.persist(familia);
+	
+	}
+	
+	public static void addProducto(String nombre, Double precio, Familia familia, boolean congelado,   Session sesion) {
+		
+		  Producto 	producto = new Producto();
+		  producto.setDenoProducto(nombre);
+		  producto.setPrecioBase(precio);
+		  producto.setcodFamilia(familia);
+		  producto.setCongelado(false);
+		  
+		  sesion.persist(producto);
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
