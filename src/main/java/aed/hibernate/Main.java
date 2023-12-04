@@ -44,7 +44,8 @@ public class Main {
 			
 			Stock stock1 = new Stock();
 			stock1.setCodProducto(a);
-			stock1.setCodTienda(tienda1);
+			stock1.setCodTienda(tienda1
+					);
 			stock1.setUnidades(100);
 			sesion.persist(stock1);
 			
