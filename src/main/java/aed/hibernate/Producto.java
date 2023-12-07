@@ -70,18 +70,5 @@ public class Producto {
 		this.congelado = congelado;
 	}
 
-	public void setObservacion(ProductoObservacion productoObservacion) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public ProductoObservacion getObservacion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-    
-    
-    
-    
     
 }
