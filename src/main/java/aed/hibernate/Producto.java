@@ -74,6 +74,11 @@ public class Producto {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public ProductoObservacion getObservacion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     
     
