@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import aed.hibernate.Familia;
+import aed.hibernate.HibernateUtil;
+import aed.hibernate.Producto;
 
 public class FamiliaDAO {
 
@@ -22,11 +24,20 @@ private static List<Familia> familias;
 	
 	public static List<Familia> getFamilias() {
 		
-	    for (Familia familia : familias) {
-	        System.out.println("ID: " + familia.getCodFamilia() + ", Nombre: " + familia.getDenoFamilia());
-	    }
+		Session session = null;
 		
-		return familias;
+		try {
+			
+			session = HibernateUtil.getSessionFactory().openSession();
+			return session.createQuery("FROM Familia", Familia.class).list();
+			
+		} finally {
+				
+			if(session != null) {
+				session.close();
+			}
+
+		}
 	}
 	
 	public static Familia findById(int codFamilia) {
@@ -48,4 +59,23 @@ private static List<Familia> familias;
 		return familia;
 
 	}
+	
+    public static Familia obtenerFamiliaPorIdProducto(int idProducto, Session sesion) {
+        try {
+            // Obtener el producto por su ID
+            Producto producto = sesion.get(Producto.class, idProducto); 
+
+            // Verificar si el producto existe
+            if (producto != null) {
+                // Obtener la familia asociada al producto
+                return producto.getcodFamilia();
+            } else {
+                System.out.println("Producto no encontrado.");
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

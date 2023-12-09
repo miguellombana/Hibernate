@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import aed.hibernate.HibernateUtil;
 import aed.hibernate.Producto;
 import aed.hibernate.Stock;
 import aed.hibernate.Tienda;
@@ -16,12 +17,27 @@ public class StockDAO {
 	
 	   private static List<Stock> stocks = new ArrayList<>();
 
-	    public static List<Stock> getStocks() {
-	        System.out.println("Obteniendo stocks del DAO");
-	        return stocks;
+	    public static List<Object[]> getStocks() {
+	        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	            // Realiza la consulta para obtener información adicional sobre el stock
+	            Query<Object[]> query = session.createQuery(
+	                    "SELECT " +
+	                            "s, p.DenoProducto, p.codFamilia, f.DenoFamilia, po.Observacion, t.DenoTienda, s.unidades " +
+	                            "FROM Stock s " +
+	                            "JOIN s.producto p " +
+	                            "JOIN p.familia f " +
+	                            "LEFT JOIN p.observacion po " +
+	                            "JOIN s.tienda t",
+	                    Object[].class);
+	            return query.list();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            // Maneja la excepción según tus necesidades (lanzarla, loggearla, etc.)
+	            return null;
+	        }
 	    }
 
-
+ 
 	
 	
 	
@@ -66,6 +82,33 @@ public class StockDAO {
         query.setParameter("producto", producto);
         return query.getResultList();
     }
-	
+
+
+    public static void eliminarStock(int codigoProducto, Session sesion) {
+        Transaction transaction = sesion.beginTransaction();
+
+        try {
+            // Buscar el stock por el código del producto
+            Query<Stock> query = sesion.createQuery(
+                    "FROM Stock WHERE codProducto.codProducto = :codigoProducto",
+                    Stock.class);
+            query.setParameter("codigoProducto", codigoProducto);
+            Stock stock = query.uniqueResult();
+
+            if (stock != null) {
+                // Eliminar el stock
+                sesion.remove(stock);
+                System.out.println("Stock eliminado con éxito.");
+            } else {
+                System.out.println("No se encontró stock para el producto con código " + codigoProducto);
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
 	
 }

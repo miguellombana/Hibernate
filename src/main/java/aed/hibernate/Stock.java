@@ -1,5 +1,8 @@
 package aed.hibernate;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,13 +13,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "stock")
+@Table(name = "stock") 
 public class Stock {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@ManyToOne
 	@JoinColumn(name = "codproducto")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Producto codProducto;
 
 	@Id
@@ -29,7 +33,7 @@ public class Stock {
 	private int unidades;
 
 	public Producto getCodProducto() {
-		return codProducto;
+		return codProducto; 
 	}
 
 	public void setCodProducto(Producto codProducto) {

@@ -6,8 +6,10 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import aed.hibernate.Familia;
+import aed.hibernate.HibernateUtil;
 import aed.hibernate.Producto;
 import aed.hibernate.ProductoObservacion;
 import aed.hibernate.Stock;
@@ -24,8 +26,24 @@ private static List<Producto> productos = new ArrayList<Producto>();
 	}
 	
 	public static List<Producto> getProductos() {
-		System.out.println("Obteniendo productos del DAO");
-		return productos;
+		
+		
+		Session session = null;
+		
+		try {
+			
+			session = HibernateUtil.getSessionFactory().openSession();
+			return session.createQuery("FROM Producto", Producto.class).list();
+			
+		} finally {
+				
+			if(session != null) {
+				session.close();
+			}
+
+		}
+		
+
 	}
 	
 	public static void addProductoDAO(Producto producto) {
@@ -77,25 +95,45 @@ private static List<Producto> productos = new ArrayList<Producto>();
 			transaction.rollback();
 			e.printStackTrace();
 		}
+		
 	}
 
-	public static void modificarProducto(int productId, String newProductName, Double newPrice, Session sesion) {
-		Transaction transaction = sesion.beginTransaction();
-		try {
-			Producto producto = sesion.get(Producto.class, productId);
-			if (producto != null) {
-				producto.setDenoProducto(newProductName);
-				producto.setPrecioBase(newPrice);
-				sesion.merge(producto);
-				System.out.println("Producto actualizado con éxito.");
-			} else {
-				System.out.println("Producto no encontrado.");
-			}
-			transaction.commit();
-		} catch (Exception e) {
-			transaction.rollback();
-			e.printStackTrace();
-		}
+	public static void modificarProducto(int productId, String newProductName, Double newPrice, Boolean congelado, Familia familia, String observacion, Session sesion) {
+	    Transaction transaction = null;
+
+	    try {
+	        transaction = sesion.getTransaction();
+
+	        if (!transaction.isActive()) {
+	            transaction.begin();
+	        }
+
+	        Producto producto = sesion.get(Producto.class, productId);
+
+	        if (producto != null) {
+	            producto.setDenoProducto(newProductName);
+	            producto.setPrecioBase(newPrice);
+	            producto.setCongelado(congelado);
+	            producto.setcodFamilia(familia);
+
+	            // Modifica la observación del producto
+	           ObservacionDAO.modificarObservacionProducto(productId, observacion, sesion);
+
+	            sesion.merge(producto);
+	            System.out.println("Producto actualizado con éxito.");
+	        } else {
+	            System.out.println("Producto no encontrado.");
+	        }
+
+	        if (transaction.getStatus() == TransactionStatus.ACTIVE) {
+	            transaction.commit();
+	        }
+	    } catch (Exception e) {
+	        if (transaction != null && transaction.getStatus() == TransactionStatus.ACTIVE) {
+	            transaction.rollback();
+	        }
+	        e.printStackTrace();
+	    }
 	}
 	
 	
@@ -196,12 +234,38 @@ private static List<Producto> productos = new ArrayList<Producto>();
         return resultados;
     }
 	
-	
-	
-	
-	
-	
-	
-	
+	public static Producto getProductoPorId(int productId, Session sesion) {
+	    try {
+	        return sesion.get(Producto.class, productId);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+	public static void eliminarProductoDAO(int codigoProducto, Session sesion) {
+	    // Verificar si hay una transacción activa
+	    if (!sesion.getTransaction().isActive()) {
+	        sesion.beginTransaction();
+	    }
+
+	    try {
+	        // Obtener el producto por su ID
+	        Producto producto = sesion.get(Producto.class, codigoProducto);
+
+	        if (producto != null) {
+	            // Eliminar el producto del DAO
+	            productos.remove(producto);
+	            System.out.println("Producto eliminado del DAO con éxito." );
+
+	            // Realizar el commit de la transacción
+	            sesion.getTransaction().commit();  
+	        } else {
+	            System.out.println("Producto no encontrado.");
+	        } 
+	    } catch (Exception e) {
+	        sesion.getTransaction().rollback();
+	        e.printStackTrace();
+	    }
+	}
 	
 }

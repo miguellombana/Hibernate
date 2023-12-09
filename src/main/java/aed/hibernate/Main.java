@@ -102,7 +102,7 @@ public class Main {
 						if (agregarObservacion) {
 
 							System.out.println("Indica la observacion del producto: ");
-							String observacion = sc.next();
+							String observacion = sc.nextLine();
 
 							// Agregar el producto con la familia seleccionada
 							Producto nuevo = ProductoDAO.addProducto(nombre, precio, familia, congelado, sesion);

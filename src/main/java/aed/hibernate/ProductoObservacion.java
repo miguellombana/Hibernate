@@ -1,5 +1,8 @@
 package aed.hibernate;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -13,6 +16,7 @@ public class ProductoObservacion {
 	@Id
 	@OneToOne
 	@JoinColumn(name = "codproducto")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Producto codProducto;
 	
 	private String observacion;

@@ -1,4 +1,7 @@
 package aed.hibernate;
+import org.hibernate.Session;
+
+import aed.productos.dao.ObservacionDAO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -70,5 +73,15 @@ public class Producto {
 		this.congelado = congelado;
 	}
 
-    
+	   public ProductoObservacion obtenerObservacion() {
+		      
+		   Session sesion = HibernateUtil.getSessionFactory().openSession();
+	        // Lógica para obtener la observación del producto
+	        ProductoObservacion observacion = ObservacionDAO.obtenerObservacionPorProducto(this, sesion);
+	        if (observacion != null) {
+	            return observacion;
+	        } else {
+	            return null;
+	        }
+	    }
 }
