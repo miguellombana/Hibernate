@@ -18,7 +18,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Session sesion = HibernateUtil.getSessionFactory().openSession(); // crea la sesion
+	/*	Session sesion = HibernateUtil.getSessionFactory().openSession(); // crea la sesion
 
 		try {
 
@@ -188,5 +188,6 @@ public class Main {
 				System.out.println("Por favor, ingresa 'Si' o 'No'.");
 			}
 		}
-	}
+	}*/
 }
+	}

@@ -6,37 +6,31 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 
 import aed.hibernate.HibernateUtil;
 import aed.hibernate.Producto;
 import aed.hibernate.Stock;
 import aed.hibernate.Tienda;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 public class StockDAO {
 	
 	
 	   private static List<Stock> stocks = new ArrayList<>();
 
-	    public static List<Object[]> getStocks() {
-	        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-	            // Realiza la consulta para obtener información adicional sobre el stock
-	            Query<Object[]> query = session.createQuery(
-	                    "SELECT " +
-	                            "s, p.DenoProducto, p.codFamilia, f.DenoFamilia, po.Observacion, t.DenoTienda, s.unidades " +
-	                            "FROM Stock s " +
-	                            "JOIN s.producto p " +
-	                            "JOIN p.familia f " +
-	                            "LEFT JOIN p.observacion po " +
-	                            "JOIN s.tienda t",
-	                    Object[].class);
-	            return query.list();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            // Maneja la excepción según tus necesidades (lanzarla, loggearla, etc.)
-	            return null;
-	        }
-	    }
-
+	   public static List<Stock> getStocks() {
+		    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+		        // Realiza la consulta para obtener información adicional sobre el stock
+		        Query<Stock> query = session.createQuery("FROM Stock", Stock.class);
+		        return query.list();
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        // Maneja la excepción según tus necesidades (lanzarla, loggearla, etc.)
+		        return null;
+		    }
+		}
  
 	
 	
@@ -109,6 +103,7 @@ public class StockDAO {
             e.printStackTrace();
         }
     }
+
 
 	
 }

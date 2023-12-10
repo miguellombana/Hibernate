@@ -98,7 +98,7 @@ private static List<Producto> productos = new ArrayList<Producto>();
 		
 	}
 
-	public static void modificarProducto(int productId, String newProductName, Double newPrice, Boolean congelado, Familia familia, String observacion, Session sesion) {
+	public static int modificarProducto(int productId, String newProductName, Double newPrice, Boolean congelado, Familia familia, String observacion, Session sesion) {
 	    Transaction transaction = null;
 
 	    try {
@@ -121,8 +121,10 @@ private static List<Producto> productos = new ArrayList<Producto>();
 
 	            sesion.merge(producto);
 	            System.out.println("Producto actualizado con éxito.");
+	            return 1;
 	        } else {
 	            System.out.println("Producto no encontrado.");
+	            
 	        }
 
 	        if (transaction.getStatus() == TransactionStatus.ACTIVE) {
@@ -134,6 +136,7 @@ private static List<Producto> productos = new ArrayList<Producto>();
 	        }
 	        e.printStackTrace();
 	    }
+		return 0;
 	}
 	
 	
