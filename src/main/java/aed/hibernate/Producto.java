@@ -1,5 +1,6 @@
 package aed.hibernate;
 import org.hibernate.Session;
+import java.util.List;
 
 import aed.productos.dao.ObservacionDAO;
 import jakarta.persistence.Column;
@@ -10,6 +11,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 @Entity
 @Table(name = "producto")
@@ -84,4 +96,88 @@ public class Producto {
 	            return null;
 	        }
 	    }
+	   
+		public Familia getDenoFamilia() {
+		    Session sesion = HibernateUtil.getSessionFactory().openSession();
+		    sesion.beginTransaction();
+		    
+		    Familia familia = sesion.get(Familia.class, this.codFamilia);
+		    
+		    sesion.getTransaction().commit();
+		    sesion.close();
+		    
+		    return familia;
+		}
+		
+		
+		public static String obtenerUnidades(int codProducto) {
+		    Session sesion = HibernateUtil.getSessionFactory().openSession();
+		    sesion.beginTransaction();
+
+		    CriteriaBuilder builder = sesion.getCriteriaBuilder();
+		    CriteriaQuery<Stock> query = builder.createQuery(Stock.class);
+		    Root<Stock> root = query.from(Stock.class);
+		    query.select(root);
+		    query.where(builder.equal(root.get("id").get("Codproducto"), codProducto));
+
+		    List<Stock> stockList = sesion.createQuery(query).getResultList();
+
+		    sesion.getTransaction().commit();
+		    sesion.close();
+
+		    StringBuilder result = new StringBuilder();
+		    for (Stock stock : stockList) {
+		        result.append(stock.unidades()); 
+		    }
+
+		    return result.toString();
+		}
+		
+		public static String obtenerDenoTienda(int codProducto) {
+		    Session sesion = HibernateUtil.getSessionFactory().openSession();
+		    sesion.beginTransaction();
+
+		    CriteriaBuilder builder = sesion.getCriteriaBuilder();
+		    CriteriaQuery<Stock> query = builder.createQuery(Stock.class);
+		    Root<Stock> root = query.from(Stock.class);
+		    query.select(root);
+		    query.where(builder.equal(root.get("id").get("Codproducto"), codProducto));
+
+		    List<Stock> stockList = sesion.createQuery(query).getResultList();
+
+		    sesion.getTransaction().commit();
+		    sesion.close();
+
+		    StringBuilder result = new StringBuilder();
+		    for (Stock stock : stockList) {
+		        result.append(stock.getDenoTienda());
+		    }
+		    
+		    return result.toString();
+		}
+		
+		public static String obtenerCodTienda(int codProducto) {
+		    Session sesion = HibernateUtil.getSessionFactory().openSession();
+		    sesion.beginTransaction();
+
+		    CriteriaBuilder builder = sesion.getCriteriaBuilder();
+		    CriteriaQuery<Stock> query = builder.createQuery(Stock.class);
+		    Root<Stock> root = query.from(Stock.class);
+		    query.select(root);
+		    query.where(builder.equal(root.get("id").get("Codproducto"), codProducto));
+
+		    List<Stock> stockList = sesion.createQuery(query).getResultList();
+
+		    sesion.getTransaction().commit();
+		    sesion.close();
+
+		    StringBuilder result = new StringBuilder();
+		    for (Stock stock : stockList) {
+		        result.append(stock.getCodTienda());
+		    }
+		    
+		    return result.toString();
+		}
+	   
+	   
 }

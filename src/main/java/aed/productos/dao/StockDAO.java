@@ -82,7 +82,6 @@ public class StockDAO {
         Transaction transaction = sesion.beginTransaction();
 
         try {
-            // Buscar el stock por el código del producto
             Query<Stock> query = sesion.createQuery(
                     "FROM Stock WHERE codProducto.codProducto = :codigoProducto",
                     Stock.class);
